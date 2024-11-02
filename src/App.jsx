@@ -24,7 +24,7 @@ function App() {
   onMount(checkUserSignedIn);
 
   createEffect(() => {
-    const authListener = supabase.auth.onAuthStateChange((_, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((_, session) => {
       if (session?.user) {
         setUser(session.user);
         setCurrentPage('homePage');
@@ -35,7 +35,7 @@ function App() {
     });
 
     return () => {
-      authListener.data.unsubscribe();
+      authListener?.unsubscribe();
     };
   });
 
@@ -130,7 +130,7 @@ function App() {
                     accept="image/*"
                     multiple
                     onChange={handleImageUpload}
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
                   />
                 </div>
                 <div>
@@ -138,7 +138,7 @@ function App() {
                   <select
                     value={selectedStyle()}
                     onChange={(e) => setSelectedStyle(e.target.value)}
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border cursor-pointer"
                   >
                     <option>Animated</option>
                     <option>Professional</option>
